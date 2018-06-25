@@ -19,7 +19,10 @@ const addPainting = painting => {
 
 const getPainting = id => db.get(id)
 
+const updatePainting = painting => db.put(painting)
+
 module.exports = {
 	addPainting,
-	getPainting
+	getPainting,
+	updatePainting
 }
