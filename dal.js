@@ -23,9 +23,17 @@ const updatePainting = painting => db.put(painting)
 
 const deletePainting = id => db.get(id).then(doc => db.remove(doc))
 
+const listPaintings = (paginate, limit) => {
+	const opts = paginate
+		? { include_docs: true, limit, start_key: `${paginate}\ufff0` }
+		: { include_docs: true, limit }
+	return db.allDocs(opts)
+}
+
 module.exports = {
 	addPainting,
 	getPainting,
 	updatePainting,
-	deletePainting
+	deletePainting,
+	listPaintings
 }

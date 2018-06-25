@@ -8,7 +8,8 @@ const {
 	addPainting,
 	getPainting,
 	updatePainting,
-	deletePainting
+	deletePainting,
+	listPaintings
 } = require('./dal')
 const {
 	propOr,
@@ -134,7 +135,14 @@ app.delete('/paintings/:id', function(req, res, next) {
 })
 
 //TODO
-app.get('/paintings', function(req, res, next) {})
+
+app.get('/paintings', function(req, res, next) {
+	const limit = Number(pathOr(5, ['query', 'limit'], req))
+	const paginate = pathOr(null, ['query', 'lastItem'], req)
+	listPaintings(paginate, limit)
+		.then(result => res.status(200).send(map(row => row.doc, result.rows)))
+		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+})
 
 app.use((err, req, res, next) => {
 	console.log(
