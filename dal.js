@@ -2,7 +2,7 @@ require('dotenv').config()
 const PouchDB = require('pouchdb-core')
 PouchDB.plugin(require('pouchdb-adapter-http'))
 
-const { merge, prop, map } = require('ramda')
+const { merge, prop, filter, split, map } = require('ramda')
 const pkGen = require('./lib/pk-gen')
 
 const db = new PouchDB(
@@ -27,11 +27,20 @@ const updatePainting = painting => {
 
 const deletePainting = id => db.get(id).then(doc => db.remove(doc))
 
-const listPaintings = (paginate, limit) => {
+const listPaintings = (paginate, limit, filterQuery) => {
 	const opts = paginate
 		? { include_docs: true, limit, start_key: `${paginate}\ufff0` }
 		: { include_docs: true, limit }
-	return db.allDocs(opts)
+	const allPaintings = db.allDocs(opts)
+	if (filterQuery) {
+		const filterArray = split(':', filterQuery)
+		return allPaintings
+			.then(result => map(row => row.doc, result.rows))
+			.then(painting =>
+				filter(row => prop(filterArray[0], row) === filterArray[1], painting)
+			)
+	}
+	return db.allDocs(opts).then(result => map(row => row.doc, result.rows))
 }
 
 module.exports = {

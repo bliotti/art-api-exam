@@ -139,8 +139,8 @@ app.get('/paintings', function(req, res, next) {
 	const limit = Number(pathOr(5, ['query', 'limit'], req))
 	const paginate = pathOr(null, ['query', 'lastItem'], req)
 	const filterQuery = pathOr(null, ['query', 'filter'], req)
-	listPaintings(paginate, limit)
-		.then(result => res.status(200).send(map(row => row.doc, result.rows)))
+	listPaintings(paginate, limit, filterQuery)
+		.then(result => res.status(200).send(result))
 		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
 })
 
