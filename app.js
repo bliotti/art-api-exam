@@ -4,7 +4,7 @@ const app = express()
 const port = process.env.PORT || 5001
 const bodyParser = require('body-parser')
 const NodeHTTPError = require('node-http-error')
-const { addPainting } = require('./dal')
+const { addPainting, getPainting } = require('./dal')
 const {
 	propOr,
 	map,
@@ -54,6 +54,13 @@ app.post('/paintings', function(req, res, next) {
 
 	addPainting(newArt)
 		.then(result => res.status(201).send(result))
+		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+})
+
+app.get('/paintings/:id', function(req, res, next) {
+	const paintingID = req.params.id
+	getPainting(paintingID)
+		.then(result => res.status(200).send(result))
 		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
 })
 
