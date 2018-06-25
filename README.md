@@ -28,6 +28,8 @@ Install dependencies
 npm install
 ```
 
+<img src="https://github.com/coinGuyBri/art-api-exam/blob/master/art%20demo%20gif.gif?raw=true">
+
 ## Setup Environment Variables
 
 Next, create a file named **.env** in the newly created art-api-exam folder.
