@@ -100,12 +100,14 @@ app.put('/paintings/:id', function(req, res, next) {
 
 	const requiredMuseumFields = ['name', 'location']
 
-	const missingFields = reqFieldChecker(requiredFields, updatedPainting)
+	const missingMainFields = reqFieldChecker(requiredFields, updatedPainting)
 
 	const missingMuseumFields = reqFieldChecker(
 		requiredMuseumFields,
 		updatedPainting.museum
 	)
+
+	const missingFields = [...missingMainFields, ...missingMuseumFields]
 
 	const sendMissingFieldError = compose(
 		not,
@@ -133,8 +135,6 @@ app.delete('/paintings/:id', function(req, res, next) {
 		.then(result => res.status(200).send(result))
 		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
 })
-
-//TODO
 
 app.get('/paintings', function(req, res, next) {
 	const limit = Number(pathOr(5, ['query', 'limit'], req))
