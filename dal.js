@@ -19,7 +19,11 @@ const addPainting = painting => {
 
 const getPainting = id => db.get(id)
 
-const updatePainting = painting => db.put(painting)
+const updatePainting = painting => {
+	// merge fn will always overwrite prop "type" and it's value, if included or not.
+	const modifiedPainting = merge(painting, { type: 'painting' })
+	return db.put(modifiedPainting)
+}
 
 const deletePainting = id => db.get(id).then(doc => db.remove(doc))
 

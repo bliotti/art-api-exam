@@ -84,7 +84,6 @@ app.put('/paintings/:id', function(req, res, next) {
 		)
 	}
 
-	// TODO type field not req.
 	// TODO join both missings USE ... operator before msg create
 
 	const requiredFields = [
@@ -94,8 +93,7 @@ app.put('/paintings/:id', function(req, res, next) {
 		'movement',
 		'artist',
 		'yearCreated',
-		'museum',
-		'type'
+		'museum'
 	]
 
 	const requiredMuseumFields = ['name', 'location']
@@ -114,6 +112,7 @@ app.put('/paintings/:id', function(req, res, next) {
 		isEmpty
 	)(missingFields)
 
+	// TODO error message : specify if missing fields are from museum prop
 	if (sendMissingFieldError) {
 		next(
 			new NodeHTTPError(
@@ -139,6 +138,7 @@ app.delete('/paintings/:id', function(req, res, next) {
 app.get('/paintings', function(req, res, next) {
 	const limit = Number(pathOr(5, ['query', 'limit'], req))
 	const paginate = pathOr(null, ['query', 'lastItem'], req)
+	const filterQuery = pathOr(null, ['query', 'filter'], req)
 	listPaintings(paginate, limit)
 		.then(result => res.status(200).send(map(row => row.doc, result.rows)))
 		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
