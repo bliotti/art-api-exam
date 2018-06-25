@@ -21,8 +21,11 @@ const getPainting = id => db.get(id)
 
 const updatePainting = painting => db.put(painting)
 
+const deletePainting = id => db.get(id).then(doc => db.remove(doc))
+
 module.exports = {
 	addPainting,
 	getPainting,
-	updatePainting
+	updatePainting,
+	deletePainting
 }

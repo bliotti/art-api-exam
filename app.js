@@ -4,7 +4,12 @@ const app = express()
 const port = process.env.PORT || 5001
 const bodyParser = require('body-parser')
 const NodeHTTPError = require('node-http-error')
-const { addPainting, getPainting, updatePainting } = require('./dal')
+const {
+	addPainting,
+	getPainting,
+	updatePainting,
+	deletePainting
+} = require('./dal')
 const {
 	propOr,
 	map,
@@ -120,6 +125,16 @@ app.put('/paintings/:id', function(req, res, next) {
 		.then(result => res.status(200).send(result))
 		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
 })
+
+app.delete('/paintings/:id', function(req, res, next) {
+	const paintingID = req.params.id
+	deletePainting(paintingID)
+		.then(result => res.status(200).send(result))
+		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+})
+
+//TODO
+app.get('/paintings', function(req, res, next) {})
 
 app.use((err, req, res, next) => {
 	console.log(
