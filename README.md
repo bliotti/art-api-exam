@@ -19,7 +19,7 @@ git clone <clone url>
 cd into the client
 
 ```
-cd surfboard-api
+cd art-api-exam
 ```
 
 Install dependencies
