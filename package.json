@@ -19,6 +19,7 @@
 		"nodemon": "^1.17.5",
 		"pouchdb-adapter-http": "^7.0.0",
 		"pouchdb-core": "^7.0.0",
+		"pouchdb-find": "^7.0.0",
 		"ramda": "^0.24.1"
 	}
 }

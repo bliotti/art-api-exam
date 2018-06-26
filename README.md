@@ -1,6 +1,8 @@
-# API for managing paintings on CouchDB
+# Famous Paintings API with CouchDB & PouchDB
 
-_A simple api to manage paintings on CouchDB_
+\_A simple api to manage painting Info
+
+[PouchDB API Docs](https://pouchdb.com/api.html)
 
 **Required**
 
@@ -65,3 +67,6 @@ Run the following command to start the api on the designated port.
 ```
 npm start
 ```
+
+More Info
+[PouchDB API Docs](https://pouchdb.com/api.html)
